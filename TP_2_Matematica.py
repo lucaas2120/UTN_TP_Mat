@@ -69,7 +69,7 @@ def procesarsDNI(dnis):
         print(f"_____________________")
     #Si existe una lista con datos válidos
     if existeLista["existeLista"]:
-
+    #Guardamos la interseccion en una variable, la ordenamos de mayor a menor con "Sorted" y la imprimimos
         interseccion = sorted(existeLista["interseccion"])
         print(f"Interseccion entre todos los DNIs: {interseccion}")
     else:
