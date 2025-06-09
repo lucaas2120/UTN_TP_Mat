@@ -38,22 +38,30 @@ def diversidadDigitos(dni):
      return diversidadAlta
 
 def unionConjuntos(conjuntos):
+    #Utilizamos el metodo set.union() devuelve un nuevo conjunto que contiene todos los elementos de ambos conjuntos, sin duplicados
     union = set.union(*conjuntos)
     return union
 
 def interseccionConjuntos(conjuntos):
+    #Utilizamos set.intersection() devuelve un nuevo conjunto que contiene solo los elementos comunes a ambos conjuntos
     interseccion = set.intersection(*conjuntos)
     return interseccion
 
 def diferenciaSimetricaConjuntos(conjuntos):
+    #Copiamos el primer conjunto como base.
     diferenciaSimetrica = conjuntos[0].copy()
+    #Recorremos todos los conjuntos
     for conjunto in conjuntos[1:]:
+        #Utilizamos el metodo symmetric_difference() de un conjunto devuelve este conjunto resultante
         diferenciaSimetrica = diferenciaSimetrica.symmetric_difference(conjunto)
     return diferenciaSimetrica
 
 def diferenciaConjuntos(conjuntos):
+    #Esta funcion devuelve la diferencia entre todos los conjuntos.
+    #Copiamos el primer conjunto como base
     diferencia = conjuntos[0].copy()
     for conjunto in conjuntos[1:]:
+        #Eliminamos los elementos presentes en los demás conjuntos
         diferencia -= conjunto
     return diferencia
 
@@ -62,12 +70,12 @@ def procesarsDNI(dnis):
     #Procesaremos cada uno de los DNI ingresados en las funciones anteriores.
     #Utilizamos la funcion de condicionesLogicas para determinar si los numeros ingresados pueden ser procesados
     conjuntos = [limpiarDigitos(dni) for dni in dnis]
-    
+
+    #Validación para definir que existan los conjuntos
     if not conjuntos:
         print("No se ingresaron DNIs validos.")
         return
-    
-    
+        
     #Hacemos un loop sobre todos los DNIs ingresados imprimiendo los resultados
     for dni in dnis:
         print(f"__________________________________________")
@@ -80,16 +88,20 @@ def procesarsDNI(dnis):
      
     print(f"__________________________________________")
     
+    #Validamos que haya mas de un conjunto para poder realizar las operaciones entre ellos.
     if len(conjuntos) > 1:       
+        #Ordenamos los resultados de menor a mayor usando sorted
         interseccion = sorted(interseccionConjuntos(conjuntos))
         union = sorted(unionConjuntos(conjuntos))
         diferencia = sorted(diferenciaConjuntos(conjuntos))
         diferenciaSimetrica = sorted(diferenciaSimetricaConjuntos(conjuntos))
+        #Imprimimos los resultados por pantalla
         print(f"Interseccion: {interseccion}")
         print(f"Union: {union}")
         print(f"Diferencia: {diferencia}")
         print(f"Diferencia simetrica: {diferenciaSimetrica}")
     else:
+        #En caso de que no haya suficientes conjuntos para operar imprimimos el siguiente mensaje
         print("Se deben ingresar más de un DNI para calcular operaciones entre conjuntos.") 
 
 
