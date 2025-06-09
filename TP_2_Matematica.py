@@ -30,50 +30,68 @@ def sumaDigitos(dni):
     total = sum(int(digito) for digito in dni)
     return total
 
-def condicionesLogicas(dnis):
-    #Comparaciones entre cada DNI
-    #Validamos que la lista no este vacía
-    if not dnis:
-        return {"existeLista": False}
-    
-    #Utilizamos la funcion limpiar digitos para tener digitos unicos y tener un array con los conjuntos numericos que se ingresaron
-    conjuntos = [limpiarDigitos(dni) for dni in dnis] 
-    #Utilizamos el metodo que provee SET llamado "Intersection", el cuál nos dara la interseccion de los conjuntos
-    interseccion = set.intersection(*conjuntos)
-
-    #Retornamos el "ExisteLista", en caso de que haya una interseccion y tambien la interseccion que hubo.
-    return { "existeLista": len(interseccion)>0,
-            "interseccion": interseccion}
-
 def diversidadDigitos(dni):
      #Limpiamos los digitos para que sean unicos en el conjunto
      digitos = limpiarDigitos(dni)
      #Si existen mas de 4 números distintos en el conjunto, lo tomaremos como diversidad alta
      diversidadAlta = len(digitos)> 4
-     return {"diversidad_Alta": diversidadAlta}
+     return diversidadAlta
+
+def unionConjuntos(conjuntos):
+    union = set.union(*conjuntos)
+    return union
+
+def interseccionConjuntos(conjuntos):
+    interseccion = set.intersection(*conjuntos)
+    return interseccion
+
+def diferenciaSimetricaConjuntos(conjuntos):
+    diferenciaSimetrica = conjuntos[0].copy()
+    for conjunto in conjuntos[1:]:
+        diferenciaSimetrica = diferenciaSimetrica.symmetric_difference(conjunto)
+    return diferenciaSimetrica
+
+def diferenciaConjuntos(conjuntos):
+    diferencia = conjuntos[0].copy()
+    for conjunto in conjuntos[1:]:
+        diferencia -= conjunto
+    return diferencia
+
 
 def procesarsDNI(dnis):
     #Procesaremos cada uno de los DNI ingresados en las funciones anteriores.
     #Utilizamos la funcion de condicionesLogicas para determinar si los numeros ingresados pueden ser procesados
-    existeLista = condicionesLogicas(dnis)
+    conjuntos = [limpiarDigitos(dni) for dni in dnis]
+    
+    if not conjuntos:
+        print("No se ingresaron DNIs validos.")
+        return
+    
+    
     #Hacemos un loop sobre todos los DNIs ingresados imprimiendo los resultados
     for dni in dnis:
-        print(f"_____________________")
+        print(f"__________________________________________")
         print(f"Procesamos DNI:{dni}")
         conjunto = limpiarDigitos(dni)
         print(f"Conjunto: {conjunto}")
         print(f"Frecuencia de dígitos: {frecuenciaDeDigitos(dni)}")
         print(f"Suma de los dígitos: {sumaDigitos(dni)}")
-        diversidadAlta = diversidadDigitos(dni)
-        print(f"Diversidad alta: {diversidadAlta["diversidad_Alta"]}")
-        print(f"_____________________")
-    #Si existe una lista con datos válidos
-    if existeLista["existeLista"]:
-    #Guardamos la interseccion en una variable, la ordenamos de mayor a menor con "Sorted" y la imprimimos
-        interseccion = sorted(existeLista["interseccion"])
-        print(f"Interseccion entre todos los DNIs: {interseccion}")
+        print(f"Diversidad alta: {(diversidadDigitos(dni))}")
+     
+    print(f"__________________________________________")
+    
+    if len(conjuntos) > 1:       
+        interseccion = sorted(interseccionConjuntos(conjuntos))
+        union = sorted(unionConjuntos(conjuntos))
+        diferencia = sorted(diferenciaConjuntos(conjuntos))
+        diferenciaSimetrica = sorted(diferenciaSimetricaConjuntos(conjuntos))
+        print(f"Interseccion: {interseccion}")
+        print(f"Union: {union}")
+        print(f"Diferencia: {diferencia}")
+        print(f"Diferencia simetrica: {diferenciaSimetrica}")
     else:
-        print("No hay digitos comunes entre los DNIs ingresados.")
+        print("Se deben ingresar más de un DNI para calcular operaciones entre conjuntos.") 
+
 
 dnis = solicitarDNI()
 procesarsDNI(dnis)
