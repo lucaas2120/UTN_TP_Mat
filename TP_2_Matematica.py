@@ -147,11 +147,32 @@ def funcionesDNI():
 def funcionesAnio():
     #Ingreso de años de nacimiento
     anios = []
-    cantidad = int(input("¿Cuántas personas hay en el grupo? "))
+    #Solicitamos el ingreso de cantidad de personas del grupo, validamos que sea un número entero mayor a 0
+    while True:
+        cantidad = input("¿Cuántas personas hay en el grupo? ").strip()
+
+        if not cantidad.isdigit() or cantidad == "0":
+            print("Ingreso invalido, debes ingresar un número entero positivo.")
+            continue
+
+        cantidad = int(cantidad)
+
+        break
 
     for i in range(cantidad):
-        anio = int(input("Ingresá el año de nacimiento de la persona " + str(i + 1) + ": "))
-        anios.append(anio)
+       while True:
+            anio = input("Ingresá el año de nacimiento de la persona " + str(i + 1) + ": ").strip()
+
+            #Validación de datos ingresados, el año debe ser un número entero        
+            if not anio.isdigit():
+                print("Entrada inválida. Debe ingresar un número entero.")
+                continue
+            
+            anio = int(anio)
+            
+            anios.append(anio)
+
+            break
     #Contar si son pares e impares
     pares = 0
     impares = 0
